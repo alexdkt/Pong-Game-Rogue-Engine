@@ -1,7 +1,7 @@
 # Pong-Game-Rogue-Engine
 Classic Pong game made with Rogue Engine, a ThreeJS based game engine created by @BeardScript
 
-![](https://imgur.com/a/7PxcK1H)
+# <img alt="pongRogueEngine" src="https://i.imgur.com/ru0gZWs.gif">
 
 # Instructions
 * Clone this project.
