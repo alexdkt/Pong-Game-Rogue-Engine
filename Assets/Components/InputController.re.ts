@@ -31,10 +31,9 @@ export default class InputController extends RE.Component {
 
       if (e.new == GameState.StartGameplay) {
         this.isPlaying = true;
-      } else if (e.new == GameState.EndGameplay) {
+      } else if (e.new == GameState.EndGameplay || e.new == GameState.MainMenu) {
         this.isPlaying = false;
-      }
-
+      } 
     });
 
     this.useTouches = WindowUtils.isMobile();

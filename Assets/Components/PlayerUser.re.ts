@@ -13,17 +13,17 @@ export default class PlayerUser extends RE.Component {
 
   awake() {
 
-    GameStateController.onChangeGameState((e) => {
+    GameStateController.onChangeGameState((state) => {
 
-      // Reset position when game starts
-      if (e.new == GameState.StartGameplay) {
+      // Reset position when round ends or game is finished from pause
+      if (state.new == GameState.EndGameplay || (state.new == GameState.MainMenu && state.old == GameState.Pause)) {
         this.object3d.position.set(this.initPosition.x, this.initPosition.y, this.initPosition.z);
       }
     });
   }
 
   start() {
-    this.initPosition = this.object3d.position;
+    this.initPosition.copy(this.object3d.position);
   }
 
 }

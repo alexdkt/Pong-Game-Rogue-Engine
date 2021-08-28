@@ -18,27 +18,32 @@ export default class PlayerCpuAI extends RE.Component {
 
   // Private variables
   private initPosition: Vector3 = new Vector3(0, 0, 0);
+  private isPlaying: Boolean = false;
 
   awake() {
 
-    GameStateController.onChangeGameState((e) => {
+    GameStateController.onChangeGameState((state) => {
 
-      // Reset position when game starts
-      if (e.new == GameState.StartGameplay) {
-        this.object3d.position.set(this.initPosition.x, this.initPosition.y, this.initPosition.z);
+      if (state.new == GameState.StartGameplay) {
+        this.isPlaying = true;
+      } else if (state.new == GameState.EndGameplay || (state.new == GameState.MainMenu && state.old == GameState.Pause)) {
+        // Reset position when round ends or game is finished from pause
+        this.isPlaying = false;
+        this.object3d.position.copy(this.initPosition);
       }
 
     });
   }
 
   start() {
-    this.initPosition = this.object3d.position;
+    this.initPosition.copy(this.object3d.position);
   }
 
   update() {
 
     // Super basic AI. Follow the ball using a lerp to adjust the speed
-    this.object3d.position.y = MathUtils.lerp(this.object3d.position.y, this.ball.position.y, this.responseSpeed);
+    if (this.isPlaying)
+      this.object3d.position.y = MathUtils.lerp(this.object3d.position.y, this.ball.position.y, this.responseSpeed);
 
   }
 

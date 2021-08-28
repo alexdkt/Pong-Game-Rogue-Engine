@@ -25,7 +25,7 @@ export default class BallController extends RE.Component {
 
   // Private variables
   private direction: Vector3;
-  private initPosition: Vector2 = new Vector2(0, 0);
+  private initPosition: Vector3 = new Vector3(0, 0, 0);
   private isPlaying: Boolean = false;
 
   awake() {
@@ -37,18 +37,17 @@ export default class BallController extends RE.Component {
     // Callback to detect game-state changes:
     GameStateController.onChangeGameState((state) => {
 
-      if (state.new == GameState.StartGameplay) {
+      if (state.new == GameState.StartGameplay && state.old != GameState.Pause) {
 
         // Gameplay starts! Reset ball position, direction and allow update event (isPlaying = true) 
-        this.object3d.position.set(this.initPosition.x, this.initPosition.y, this.object3d.position.z);
+        this.object3d.position.copy(this.initPosition);
         this.direction = new Vector3(0.7, Math.random(), 0);  // x: speed, y: direction
         this.isPlaying = true;
 
-      } else if (state.new == GameState.EndGameplay) {
-
+      } else if (state.new == GameState.EndGameplay || (state.new == GameState.MainMenu && state.old == GameState.Pause)) {
         // Gameplay ends! Disable Update method
+        this.object3d.position.copy(this.initPosition);
         this.isPlaying = false;
-
       }
 
     });
@@ -57,7 +56,7 @@ export default class BallController extends RE.Component {
 
   start() {
     this.detectCollisions();
-    this.initPosition.set(this.object3d.position.x, this.object3d.position.y);
+    this.initPosition.copy(this.object3d.position);
   }
 
   update() {
