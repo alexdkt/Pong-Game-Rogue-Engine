@@ -785,6 +785,7 @@ class PlayerCpuAI extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
   constructor() {
     super(...arguments);
     this.responseSpeed = 1;
+    this.maxVMovement = 3;
     this.initPosition = new three__WEBPACK_IMPORTED_MODULE_1__.Vector3(0, 0, 0);
     this.isPlaying = false;
   }
@@ -804,6 +805,10 @@ class PlayerCpuAI extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
   update() {
     if (this.isPlaying)
       this.object3d.position.y = three__WEBPACK_IMPORTED_MODULE_1__.MathUtils.lerp(this.object3d.position.y, this.ball.position.y, this.responseSpeed);
+    if (this.object3d.position.y > this.maxVMovement)
+      this.object3d.position.y = this.maxVMovement;
+    if (this.object3d.position.y < -this.maxVMovement)
+      this.object3d.position.y = -this.maxVMovement;
   }
 }
 __name(PlayerCpuAI, "PlayerCpuAI");
@@ -813,6 +818,9 @@ __decorateClass([
 __decorateClass([
   Prop("Number")
 ], PlayerCpuAI.prototype, "responseSpeed", 2);
+__decorateClass([
+  Prop("Number")
+], PlayerCpuAI.prototype, "maxVMovement", 2);
 rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(PlayerCpuAI);
 
 
@@ -834,13 +842,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var three__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(three__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _GameUtils_GameStateController__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./GameUtils/GameStateController */ "./Assets/Components/GameUtils/GameStateController.ts");
 var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
+var __decorateClass = (decorators, target, key, kind) => {
+  var result = kind > 1 ? void 0 : kind ? __getOwnPropDesc(target, key) : target;
+  for (var i = decorators.length - 1, decorator; i >= 0; i--)
+    if (decorator = decorators[i])
+      result = (kind ? decorator(target, key, result) : decorator(result)) || result;
+  if (kind && result)
+    __defProp(target, key, result);
+  return result;
+};
 
 
 
+const { Prop } = rogue_engine__WEBPACK_IMPORTED_MODULE_0__;
 class PlayerUser extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
   constructor() {
     super(...arguments);
+    this.maxVMovement = 3;
     this.initPosition = new three__WEBPACK_IMPORTED_MODULE_1__.Vector3(0, 0, 0);
   }
   awake() {
@@ -853,8 +873,17 @@ class PlayerUser extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
   start() {
     this.initPosition.copy(this.object3d.position);
   }
+  update() {
+    if (this.object3d.position.y > this.maxVMovement)
+      this.object3d.position.y = this.maxVMovement;
+    if (this.object3d.position.y < -this.maxVMovement)
+      this.object3d.position.y = -this.maxVMovement;
+  }
 }
 __name(PlayerUser, "PlayerUser");
+__decorateClass([
+  Prop("Number")
+], PlayerUser.prototype, "maxVMovement", 2);
 rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(PlayerUser);
 
 

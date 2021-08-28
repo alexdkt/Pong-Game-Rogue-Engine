@@ -15,6 +15,7 @@ export default class PlayerCpuAI extends RE.Component {
   // Public component fields
   @Prop("Object3D") ball: Object3D;
   @Prop("Number") responseSpeed: number = 1;            // Player-cpu speed when following the ball
+  @Prop("Number") maxVMovement: number = 3;                 // Maximum range of vertical movement
 
   // Private variables
   private initPosition: Vector3 = new Vector3(0, 0, 0);
@@ -44,6 +45,15 @@ export default class PlayerCpuAI extends RE.Component {
     // Super basic AI. Follow the ball using a lerp to adjust the speed
     if (this.isPlaying)
       this.object3d.position.y = MathUtils.lerp(this.object3d.position.y, this.ball.position.y, this.responseSpeed);
+
+    
+    // We easily limit the maximum vertical movement of the player:
+
+    if (this.object3d.position.y > this.maxVMovement)
+      this.object3d.position.y = this.maxVMovement;
+
+    if (this.object3d.position.y < -this.maxVMovement)
+      this.object3d.position.y = -this.maxVMovement;  
 
   }
 
