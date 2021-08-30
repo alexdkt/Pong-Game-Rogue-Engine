@@ -30,15 +30,19 @@ export default class UiManager extends RE.Component {
   private playBtn: HTMLElement;
 
   private playGameUI: HTMLElement;
-
   private scoreUICpu: HTMLElement;
   private scoreUIPlayer: HTMLElement;
+  private pauseGameBtn: HTMLElement;
   //private bestscoreUIPlayer: HTMLElement;
 
   private endGameUI: HTMLElement;
   private endscoreUIPlayer: HTMLElement;
   //private endBestscoreUIPlayer: HTMLElement;
   private replayBtn: HTMLElement;
+
+  private pauseGameUI: HTMLElement;
+  private resumeBtn: HTMLElement;
+  private quitGameBtn: HTMLElement;
 
   awake() {
 
@@ -47,6 +51,7 @@ export default class UiManager extends RE.Component {
     this.createUIMainMenu();
     this.createUIGamePlay();
     this.createUIEndGame();
+    this.createUIPauseGame();
 
   }
 
@@ -103,8 +108,20 @@ export default class UiManager extends RE.Component {
     this.scoreUIPlayer.textContent = "0";
     this.scoreUIPlayer.style.cssText = StyleDeclarations.score;
 
+    this.pauseGameBtn = document.createElement("BUTTON");
+    this.pauseGameBtn.textContent = "| |";
+    this.pauseGameBtn.style.cssText = StyleDeclarations.pauseGameBtn;
+
+    this.pauseGameBtn.addEventListener(WindowUtils.clickEventName, () => {
+      RE.Runtime.pause();
+      this.showUIPauseGame();
+      GameStateController.changeState(GameState.Pause);
+    });
+
+
     this.playGameUI.appendChild(this.scoreUICpu);
     this.playGameUI.appendChild(this.scoreUIPlayer);
+    this.playGameUI.appendChild(this.pauseGameBtn);
 
     this.uiContainer.appendChild(this.playGameUI);
 
@@ -128,7 +145,7 @@ export default class UiManager extends RE.Component {
     this.replayBtn.textContent = "Play again!";
 
     this.replayBtn.addEventListener(WindowUtils.clickEventName, () => {
-      this.hideUIGEndGame();
+      this.hideUIEndGame();
       this.showUIGamePlay();
       GameStateController.changeState(GameState.StartGameplay);
     });
@@ -139,6 +156,41 @@ export default class UiManager extends RE.Component {
 
 
     this.uiContainer.appendChild(this.endGameUI);
+
+  }
+
+  createUIPauseGame() {
+
+    this.pauseGameUI = document.createElement("div");
+    this.pauseGameUI.style.cssText = StyleDeclarations.pauseGameContainer;
+
+    this.resumeBtn = document.createElement("h2");
+    this.resumeBtn.style.cssText = StyleDeclarations.resumeBtn;
+    this.resumeBtn.textContent = "Resume";
+    
+
+    this.resumeBtn.addEventListener(WindowUtils.clickEventName, () => {
+      this.hideUIPauseGame();
+      RE.Runtime.resume();
+      GameStateController.changeState(GameState.StartGameplay);
+    });
+
+    this.quitGameBtn = document.createElement("h2");
+    this.quitGameBtn.style.cssText = StyleDeclarations.quitGameBtn;
+    this.quitGameBtn.textContent = "Quit";
+
+    this.quitGameBtn.addEventListener(WindowUtils.clickEventName, () => {
+      this.hideUIPauseGame();
+      this.showUIMainMenu();
+      RE.Runtime.resume();
+      GameStateController.changeState(GameState.MainMenu);
+    });
+    
+
+    this.pauseGameUI.appendChild(this.resumeBtn);
+    this.pauseGameUI.appendChild(this.quitGameBtn);
+   
+    this.uiContainer.appendChild(this.pauseGameUI);
 
   }
 
@@ -168,8 +220,16 @@ export default class UiManager extends RE.Component {
     this.endGameUI.style.display = "flex";
   }
 
-  hideUIGEndGame() {
+  hideUIEndGame() {
     this.endGameUI.style.display = "none";
+  }
+
+  showUIPauseGame() {
+    this.pauseGameUI.style.display = "flex";
+  }
+
+  hideUIPauseGame() {
+    this.pauseGameUI.style.display = "none";
   }
 
   setScoreUI(player: string, amount: Number) {

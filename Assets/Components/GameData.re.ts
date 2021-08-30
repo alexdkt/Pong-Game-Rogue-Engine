@@ -41,8 +41,9 @@ export default class GameData extends RE.Component {
 
         GameStateController.onChangeGameState((state) => {
 
-            // Reset score when we repeat the game from the Scores menu. 
-            if (state.new == GameState.StartGameplay && state.old == GameState.ScoreMenu) {
+            // Reset score when we repeat the game from the Scores menu or quit from Pause. 
+            if (state.new == GameState.StartGameplay && state.old == GameState.ScoreMenu || 
+                state.new == GameState.MainMenu && state.old == GameState.Pause) {
                 this._scoreUser = 0;
                 this._scoreCpu = 0;
             }

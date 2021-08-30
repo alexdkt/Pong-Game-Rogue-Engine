@@ -1,2 +1,7 @@
-rogue_builds/
 .DS_Store
+node_modules/
+build/
+dist/*
+BUILD/
+rogue_builds/
+raw/
