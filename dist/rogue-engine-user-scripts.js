@@ -275,6 +275,52 @@ rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(Collider);
 
 /***/ }),
 
+/***/ "./Assets/Components/FacebookManager.re.js":
+/*!*************************************************!*\
+  !*** ./Assets/Components/FacebookManager.re.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ FacebookManager)
+/* harmony export */ });
+/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rogue-engine */ "rogue-engine");
+/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(rogue_engine__WEBPACK_IMPORTED_MODULE_0__);
+var __defProp = Object.defineProperty;
+var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
+
+class FacebookManager extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
+  awake() {
+    var script = document.createElement("script");
+    script.onload = () => {
+      FBInstant.initializeAsync().then(() => {
+        for (var i = 0; i < 100; i++) {
+          FBInstant.setLoadingProgress(i + 1);
+        }
+        FBInstant.startGameAsync().then(() => {
+          var contextId = FBInstant.context.getID();
+          var contextType = FBInstant.context.getType();
+          var playerName = FBInstant.player.getName();
+          var playerPic = FBInstant.player.getPhoto();
+          var playerId = FBInstant.player.getID();
+        });
+      });
+    };
+    script.src = "https://connect.facebook.net/en_US/fbinstant.6.3.js";
+    document.head.appendChild(script);
+  }
+  start() {
+  }
+  update() {
+  }
+}
+__name(FacebookManager, "FacebookManager");
+rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(FacebookManager);
+
+
+/***/ }),
+
 /***/ "./Assets/Components/GameData.re.ts":
 /*!******************************************!*\
   !*** ./Assets/Components/GameData.re.ts ***!
@@ -680,6 +726,41 @@ __decorateClass([
   Prop("Boolean")
 ], InputController.prototype, "moveY", 2);
 rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(InputController);
+
+
+/***/ }),
+
+/***/ "./Assets/Components/LoadingManager.re.ts":
+/*!************************************************!*\
+  !*** ./Assets/Components/LoadingManager.re.ts ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ LoadingManager)
+/* harmony export */ });
+/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rogue-engine */ "rogue-engine");
+/* harmony import */ var rogue_engine__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(rogue_engine__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! three */ "three");
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(three__WEBPACK_IMPORTED_MODULE_1__);
+var __defProp = Object.defineProperty;
+var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
+
+
+class LoadingManager extends rogue_engine__WEBPACK_IMPORTED_MODULE_0__.Component {
+  awake() {
+    three__WEBPACK_IMPORTED_MODULE_1__.DefaultLoadingManager.onProgress = function(url, itemsLoaded, itemsTotal) {
+      console.log("Loading file: " + url + ".\nLoaded " + itemsLoaded + " of " + itemsTotal + " files.");
+    };
+  }
+  start() {
+  }
+  update() {
+  }
+}
+__name(LoadingManager, "LoadingManager");
+rogue_engine__WEBPACK_IMPORTED_MODULE_0__.registerComponent(LoadingManager);
 
 
 /***/ }),
@@ -1368,6 +1449,7 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_three__;
 /******/ 	// Load entry module and return exports
 /******/ 	__webpack_require__("./Assets/Components/BallController.re.ts");
 /******/ 	__webpack_require__("./Assets/Components/Collider.re.ts");
+/******/ 	__webpack_require__("./Assets/Components/FacebookManager.re.js");
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
 /******/ 	__webpack_require__("./Assets/Components/GameData.re.ts");
 /******/ 	__webpack_require__("./Assets/Components/GameLifeCycle.re.ts");
@@ -1375,6 +1457,7 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_three__;
 /******/ 	__webpack_require__("./Assets/Components/GameUtils/StyleDeclarations.ts");
 /******/ 	__webpack_require__("./Assets/Components/GameUtils/WindowUtils.ts");
 /******/ 	__webpack_require__("./Assets/Components/InputController.re.ts");
+/******/ 	__webpack_require__("./Assets/Components/LoadingManager.re.ts");
 /******/ 	__webpack_require__("./Assets/Components/PlayAudioClip.ts");
 /******/ 	__webpack_require__("./Assets/Components/PlayerCpuAI.re.ts");
 /******/ 	__webpack_require__("./Assets/Components/PlayerUser.re.ts");
